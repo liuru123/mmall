@@ -136,7 +136,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.43</version>
+            <version>5.1.46</version>
         </dependency>
 
         <!--guava中提供了丰富的工具类和测试代码-->

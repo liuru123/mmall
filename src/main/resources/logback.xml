@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+       <!--每个appender都是一个日志策略 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoding>UTF-8</encoding>
+        <encoder>
+            <pattern>[%d{HH:mm:ss.SSS}][%p][%c{40}][%t] %m%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+
+    <!-- 配置项目的日志 -->
+    <appender name="mmall" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>D:\software\apache-tomcat-7.0.61\logs\mmall.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>D:\software\apache-tomcat-7.0.61\logs\mmall.log.%d{yyyy-MM-dd}.gz</FileNamePattern>
+            <!-- 保留 30天数据，默认无限-->
+            <append>true</append>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{HH:mm:ss.SSS}] [%p]  [%c{40}] [%t] %m%n</pattern>
+        </encoder>
+    </appender>
+    <!-- 配置错误日志 -->
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>D:\software\apache-tomcat-7.0.61\logs\error.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <FileNamePattern>D:\software\apache-tomcat-7.0.61\logs\error.log.%d{yyyy-MM-dd}.gz</FileNamePattern>
+            <!-- 保留 30天数据，默认无限-->
+            <append>true</append>
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{HH:mm:ss.SSS}] [%p]  [%c{40}] [%t] %m%n</pattern>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!--logger中的level是配置为INFO级别的
+    additivity是向上继承
+    appender-ref是依赖的日志-->
+    <logger name="com.mmall" additivity="false" level="INFO">
+        <appender-ref ref="mmall"/>
+        <appender-ref ref="console"/>
+    </logger>
+
+    <!--当根级别level为DEBUG时，打印的是dao层的日志-->
+    <logger name="com.mmall.dao" level="DEBUG"/>
+
+    <!--根级别日志-->
+    <root level="DEBUG">
+        <appender-ref ref="console"/>
+        <appender-ref ref="error"/>
+    </root>
+
+</configuration>
+

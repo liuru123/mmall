@@ -10,8 +10,6 @@ import com.mmall.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.rmi.server.ServerCloneException;
 import java.util.UUID;
 
 @Service("iUserService")
@@ -19,6 +17,7 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserMapper userMapper;
+
 
     @Override
     public ServiceResponse<User> login(String username, String password) {
@@ -101,9 +100,91 @@ public class UserServiceImpl implements IUserService {
             //说明这个问题答案是正确的，并且是这个用户的
             String forgetToken = UUID.randomUUID().toString();
             //将token存在本地guava缓存
-            TokenCache.setKey("token_"+username,forgetToken);
+            TokenCache.setKey(TokenCache.TOKEN_PREFIX+username,forgetToken);
             return ServiceResponse.createBySuccessMessageData("问题答案正确",forgetToken);
         }
         return ServiceResponse.createByErrorMessage("问题答案错误");
     }
+
+    public ServiceResponse<String> forgetRestPass(String username,String passNew,String forgetToken){
+        if(StringUtils.isBlank(forgetToken)){
+            return ServiceResponse.createByErrorMessage("token为空，请传递");
+        }
+
+        //检验用户名
+        ServiceResponse<String> serviceResponse = this.checkValid(username,Const.USERNAME);
+        if(serviceResponse.isSuccess()){
+            return ServiceResponse.createByErrorMessage("用户名不存在");
+        }
+
+        //得到guava缓存中的token
+        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX+username);
+        if(StringUtils.isBlank(token)){
+            return ServiceResponse.createByErrorMessage("token已过期");
+        }
+
+        //比较用户传递的token和缓存中的token是否一样
+        if(StringUtils.equals(token,forgetToken)){
+            //修改密码
+            String md5Pass = MD5Util.MD5EncodeUTF8(passNew);
+            int resultCount = userMapper.updatePassByUsername(username,md5Pass);
+            if(resultCount > 0){
+                return ServiceResponse.createBySuccessMessage("更新密码成功");
+            }
+        }else{
+            return ServiceResponse.createByErrorMessage("token过期，请重新传递");
+        }
+        return ServiceResponse.createByErrorMessage("修改密码失败");
+    }
+    public ServiceResponse<String> restPassword(String passOld,String passNew,User user){
+        //检查旧密码是否正确
+        int resultCount = userMapper.checkPassOld(passOld,user.getId());
+        if(resultCount == 0){
+            return ServiceResponse.createByErrorMessage("旧密码输入错误");
+        }
+
+        String md5Pass = MD5Util.MD5EncodeUTF8(passNew);
+        user.setPassword(md5Pass);
+        resultCount = userMapper.updateByPrimaryKeySelective(user);
+        if(resultCount > 0){
+            return ServiceResponse.createBySuccessMessage("密码更新成功");
+        }
+        return ServiceResponse.createByErrorMessage("密码更新失败");
+    }
+
+    public ServiceResponse<User> update_user_info(User user){
+        //检查用户的email是否是该用户的email
+        int resultCount = userMapper.checkEmailByUserId(user.getEmail(),user.getId());
+
+        //如果是存在的话，就说明这个email已经被别人使用了
+        if(resultCount > 0){
+            return ServiceResponse.createByErrorMessage("该email已经被占用了，请重新输入新的email");
+        }
+
+
+        User updateUser = new User();
+        updateUser.setId(user.getId());
+        updateUser.setAnswer(user.getAnswer());
+        updateUser.setEmail(user.getEmail());
+        updateUser.setPhone(user.getPhone());
+        updateUser.setQuestion(user.getQuestion());
+
+        int updateCount = userMapper.updateByPrimaryKeySelective(updateUser);
+        if(updateCount > 0){
+            return ServiceResponse.createBySuccessMessageData("更新成功",updateUser);
+        }
+        return ServiceResponse.createByErrorMessage("更新失败");
+    }
+
+    public ServiceResponse<User> get_user_information(int userId){
+        User user  = userMapper.selectByPrimaryKey(userId);
+        if(user == null){
+            return ServiceResponse.createByErrorMessage("当前用户不存在");
+        }
+        //密码设为空
+        user.setPassword(StringUtils.EMPTY);
+        return ServiceResponse.createBySuccessData(user);
+    }
+
+
 }

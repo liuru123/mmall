@@ -2,7 +2,9 @@ package com.mmall.dao;
 
 import com.mmall.pojo.User;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository("userMapper")
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -25,4 +27,10 @@ public interface UserMapper {
     String getQuestionByUsername(String username);
 
     int checkAnswer(@Param("username") String username,@Param("question") String question,@Param("answer") String answer);
+
+    int updatePassByUsername(@Param("username") String username,@Param("passNew") String passNew);
+
+    int checkPassOld(@Param("passOld") String passOld,@Param("userId") Integer userId);
+
+    int checkEmailByUserId(@Param("email") String email, @Param("userId") Integer userId);
 }

@@ -43,6 +43,7 @@ public class MD5Util {
     }
 
     public static String MD5EncodeUTF8(String origin){
+        //还需要加盐值
         return MD5Encoding(origin,"UTF-8");
     }
 }

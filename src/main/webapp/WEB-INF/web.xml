@@ -31,31 +31,35 @@
 
 
     <!-- 整合web容器和spring 容器的监听器 -->
-    <listener>
+    <!--<listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
+    </listener>-->
     <!-- lister通过applicationContext.xml文件加载整合spring 容器和web容器 -->
-    <context-param>
+    <!--<context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath:applicationContext.xml
         </param-value>
 
-    </context-param>
+    </context-param>-->
 
 
 
     <!-- Java-based annotation-driven Spring container definition -->
-    <context-param>
+    <!--<context-param>
         <param-name>contextClass</param-name>
         <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
-    </context-param>
+    </context-param>-->
 
 
     <!-- servlet的拦截器 -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath*:applicationContext.xml</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 

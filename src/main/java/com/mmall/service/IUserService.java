@@ -22,4 +22,6 @@ public interface IUserService {
     public ServiceResponse<User> update_user_info(User user);
 
     public ServiceResponse<User> get_user_information(int UserId);
+
+    public ServiceResponse<String> checkAdmin(User user);
 }

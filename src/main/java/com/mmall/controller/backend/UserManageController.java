@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
+/*这里的manager好像是被默认解析成了其他的路径，所以访问请求
+* 会被拦截*/
 @Controller
-@RequestMapping("/manager/user/")
+@RequestMapping("/admin/user/")
 public class UserManageController {
 
     @Autowired

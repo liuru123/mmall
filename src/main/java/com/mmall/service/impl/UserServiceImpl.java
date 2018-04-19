@@ -19,7 +19,6 @@ public class UserServiceImpl implements IUserService {
     private UserMapper userMapper;
 
 
-    @Override
     public ServiceResponse<User> login(String username, String password) {
         int resultCount = userMapper.checkUsername(username);
         if(resultCount == 0){
@@ -59,7 +58,6 @@ public class UserServiceImpl implements IUserService {
         return ServiceResponse.createBySuccessMessage("注册成功");
     }
 
-    @Override
     public ServiceResponse<String> checkValid(String str, String type) {
         if(StringUtils.isNotBlank(type)){
             //开始校验
@@ -186,5 +184,10 @@ public class UserServiceImpl implements IUserService {
         return ServiceResponse.createBySuccessData(user);
     }
 
-
+    public ServiceResponse<String> checkAdmin(User user){
+        if(user != null && user.getRole() == Const.Role.ROLE_ADMIN){
+            return ServiceResponse.createBySuccessMessage("是管理员登录，请正常操作");
+        }
+        return ServiceResponse.createByErrorMessage("不是管理员登录");
+    }
 }

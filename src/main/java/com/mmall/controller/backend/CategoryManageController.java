@@ -111,7 +111,7 @@ public class CategoryManageController {
      * 深度查询分类的节点id及子节点id
      * @param session
      * @param categoryId
-     * @return
+     * @return1
      */
     @RequestMapping(value = "get_category_deep_list.do",method = RequestMethod.POST)
     @ResponseBody

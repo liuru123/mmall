@@ -28,7 +28,6 @@ public class CategoryManageController {
 
     @Autowired
     private ICategoryService iCategoryService;
-    //增加品类管理
 
     /**
      * 添加商品品类

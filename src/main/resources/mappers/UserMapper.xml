@@ -151,32 +151,26 @@
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
-
     <select id="checkUsername" resultType="java.lang.Integer" parameterType="string">
     select count(1) from mmall_user
     where username = #{username}
   </select>
-
     <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
         select
-        /*尽量不要使用*,需要什么使用什么 */
         <include refid="Base_Column_List"/>
         from mmall_user
         where username = #{username}
         and password = #{password}
     </select>
-
     <select id="checkEmail" resultType="java.lang.Integer" parameterType="string">
     select count(1) from mmall_user
     where email = #{email}
   </select>
-
     <select id="getQuestionByUsername" resultType="java.lang.String" parameterType="string">
     select question
     from mmall_user
     where username = #{username}
   </select>
-
     <select id="checkAnswer" resultType="java.lang.Integer" parameterType="map">
     select count(1)
     from mmall_user
@@ -189,20 +183,16 @@
         set password = #{passNew},update_time = now()
         where  username = #{username}
     </update>
-
     <select id="checkPassOld" parameterType="map" resultType="java.lang.Integer">
       select count(1)
       from mmall_user
       where id = #{userId}
       and password = #{passOld}
     </select>
-
     <select id="checkEmailByUserId" parameterType="map" resultType="java.lang.Integer">
         select count(1)
         from mmall_user
         where email = #{email}
         and id != #{userId}
     </select>
-
-
 </mapper>

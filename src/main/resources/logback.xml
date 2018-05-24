@@ -14,10 +14,10 @@
 
     <!-- 配置项目的日志 -->
     <appender name="mmall" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>D:\software\apache-tomcat-7.0.61\logs\mmall.log</File>
+        <File>D:\software\Tomcat-8.0\logs\mmall.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <FileNamePattern>D:\software\apache-tomcat-7.0.61\logs\mmall.log.%d{yyyy-MM-dd}.gz</FileNamePattern>
+            <FileNamePattern>D:\software\Tomcat-8.0\logs\mmall.log.%d{yyyy-MM-dd}.gz</FileNamePattern>
             <!-- 保留 30天数据，默认无限-->
             <append>true</append>
             <maxHistory>10</maxHistory>
@@ -28,10 +28,10 @@
     </appender>
     <!-- 配置错误日志 -->
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>D:\software\apache-tomcat-7.0.61\logs\error.log</File>
+        <File>D:\software\Tomcat-8.0\logs\error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
-            <FileNamePattern>D:\software\apache-tomcat-7.0.61\logs\error.log.%d{yyyy-MM-dd}.gz</FileNamePattern>
+            <FileNamePattern>D:\software\Tomcat-8.0\logs\error.log.%d{yyyy-MM-dd}.gz</FileNamePattern>
             <!-- 保留 30天数据，默认无限-->
             <append>true</append>
             <maxHistory>10</maxHistory>

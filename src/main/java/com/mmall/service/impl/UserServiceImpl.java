@@ -136,7 +136,7 @@ public class UserServiceImpl implements IUserService {
     }
     public ServiceResponse<String> restPassword(String passOld,String passNew,User user){
         //检查旧密码是否正确
-        int resultCount = userMapper.checkPassOld(passOld,user.getId());
+        int resultCount = userMapper.checkPassOld(MD5Util.MD5EncodeUTF8(passOld),user.getId());
         if(resultCount == 0){
             return ServiceResponse.createByErrorMessage("旧密码输入错误");
         }

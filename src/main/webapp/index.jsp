@@ -11,6 +11,16 @@
     <title>Title</title>
 </head>
 <body>
-<p>hello world</p>
+<p>SpringMVC文件上传</p>
+<form name="form1" action="/admin/product/upload.do" enctype="multipart/form-data" method="post">
+    <input type="file" name="upload_file">
+    <input type="submit" value="SpingMVC上传文件">
+</form>
+
+<p>富文本文件上传</p>
+<form name="form2" action="/admin/product/richtext_img_upload.do" enctype="multipart/form-data" method="post">
+    <input type="file" name="upload_file">
+    <input type="submit" value="富文本文件上传">
+</form>
 </body>
 </html>

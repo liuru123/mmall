@@ -59,6 +59,7 @@ public class CategoryServiceImpl implements ICategoryService {
         return ServiceResponse.createByErrorMessage("更新商品名称失败");
     }
 
+    //平级的子节点获取
     public ServiceResponse<List<Category>> getChildCategoryList(Integer categoryId) {
         List<Category> categoryList = categoryMapper.getChildCategoryList(categoryId);
         if (CollectionUtils.isEmpty(categoryList)) {
@@ -74,6 +75,7 @@ public class CategoryServiceImpl implements ICategoryService {
      * @return
      */
     public ServiceResponse<List<Integer>> getChildDeepCategoryList(Integer categoryId) {
+        //sets是guava中的方法
         Set<Category> categorySet = Sets.newHashSet();
         getChildDeep(categorySet, categoryId);
 

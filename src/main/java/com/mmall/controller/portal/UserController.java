@@ -50,7 +50,7 @@ public class UserController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "logout.do", method = RequestMethod.GET)
+    @RequestMapping(value = "logout.do", method = RequestMethod.POST)
     @ResponseBody
     public ServiceResponse<String> logout(HttpSession session) {
         session.removeAttribute(Const.CURRENT_USER);

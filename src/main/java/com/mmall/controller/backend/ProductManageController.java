@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/admin/product")
+@RequestMapping("/admin/product/")
 public class ProductManageController {
 
     @Autowired
